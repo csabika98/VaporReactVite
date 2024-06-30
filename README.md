@@ -7,7 +7,7 @@ Vapor + React (as frontend)
 * Use the install script, it will install everything, WSL,Required packages,Swiftly, Swift, Vapor
 ![alt text](screenshots/image.png)
 
-(Adminstrator previliges reqiured)
+(Adminstrator previliges required)
 ```powershell
 powershell -ExecutionPolicy ByPass -File .\install.ps1
 ```
