@@ -11,3 +11,8 @@ Vapor + React (as frontend)
 ```powershell
 powershell -ExecutionPolicy ByPass -File .\install.ps1
 ```
+
+## To run the APP
+```powershell
+vapor run
+```
