@@ -3,19 +3,27 @@ function Test-IsAdministrator {
     $currentUser.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
+# Check if the script is running as administrator
 if (-not (Test-IsAdministrator)) {
-    Write-Host "This script requires administrator privileges. Please run it as an administrator."
+    Write-Host "This script requires administrator privileges for some operations. Please run the script as an administrator."
     exit
 }
 
+# Administrative operations
+Write-Host "Running administrative operations..."
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart
+Start-Sleep -Seconds 5
+
+# Scoop installation (non-admin)
 if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
     Write-Host "Scoop is not installed. Installing Scoop..."
-    Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
     Invoke-RestMethod get.scoop.sh | Invoke-Expression
 } else {
     Write-Host "Scoop is already installed."
 }
 
+# Install necessary Scoop packages
 scoop bucket add main
 Write-Host "Downloading and installing Visual Studio components..."
 Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vs_community.exe -OutFile vs_community.exe
@@ -24,7 +32,6 @@ Remove-Item -Path vs_community.exe
 scoop bucket add versions
 scoop install versions/python39
 scoop install main/swift
-scoop bucket add versions
 scoop install versions/nodejs20
 
 # Check if WSL is installed
@@ -93,6 +100,7 @@ wsl -d Ubuntu -e bash -c "sudo mv /tmp/toolbox/.build/release/vapor /usr/local/b
 wsl -d Ubuntu -e bash -c "vapor --help"
 
 Write-Host "WSL environment and Vapor Toolbox setup completed."
+
 
 
 
