@@ -7,23 +7,23 @@ import fs from 'fs';
 
 const app = express();
 
-// Convert the URL path to a directory path for __dirname
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Function to dynamically find the project root based on directory name
+
 function findProjectRoot(currentDir, targetFolderName) {
     const root = path.parse(currentDir).root;
 
     while (currentDir !== root) {
         let possiblePath = path.join(currentDir, targetFolderName);
         if (fs.existsSync(possiblePath)) {
-            return currentDir; // Return the directory that contains the target folder
+            return currentDir; 
         }
         currentDir = path.dirname(currentDir);
     }
 
-    return null; // or handle this case as appropriate (e.g., throw an error or use a default path)
+    return null; 
 }
 
 const projectRoot = findProjectRoot(__dirname, 'VaporReactVite');
@@ -41,26 +41,26 @@ const runVaporApp = () => {
     });
 };
 
-// Initial build and start
+
 runVaporApp();
 
-// Middleware to log all requests
+
 app.use((req, res, next) => {
     console.log(`Request received: ${req.method} ${req.url}`);
     next();
 });
 
-// Proxy configuration to handle API and other requests
+
 app.use('/api/', createProxyMiddleware({
-    target: 'http://localhost:8080/', // Correct port
+    target: 'http://localhost:8080/', 
     changeOrigin: true,
     ws: true
 }));
 
 app.use('/', createProxyMiddleware({
-    target: 'http://localhost:5173', // Assuming React runs on port 5173
+    target: 'http://localhost:5173',
     changeOrigin: true,
-    ws: false // Enable websocket proxy for hot module replacement
+    ws: false 
 }));
 
 const PORT = 8888;
