@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 
 
 app.use('/api/', createProxyMiddleware({
-    target: 'http://localhost:8080/', 
+    target: 'http://localhost:1337/', 
     changeOrigin: true,
     ws: true
 }));
