@@ -1,0 +1,16 @@
+# Set the default behavior to automatically normalize line endings.
+* text=auto
+
+# Force LF line endings for all text files.
+* text eol=lf
+
+# Ensure these file types retain their original (binary) format.
+*.jpg binary
+*.png binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.tar binary
+*.exe binary
