@@ -35,7 +35,7 @@ let VaporProcess;
 const runVaporApp = () => {
     VaporProcess = spawn('wsl', ['./run_vapor.sh'], { cwd: VaporProjectPath });
     VaporProcess.stdout.on('data', (data) => console.log(`Vapor: ${data}`));
-    VaporProcess.stderr.on('data', (data) => console.error(`Vapor Error: ${data}`));
+    VaporProcess.stderr.on('data', (data) => console.error(`Vapor : ${data}`));
     VaporProcess.on('close', (code) => {
         console.log(`Vapor process exited with code ${code}`);
     });
