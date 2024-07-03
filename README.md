@@ -1,8 +1,12 @@
 ## VaporReactVite
 
-Vapor + React (as frontend)
+<b>Vapor with React</b>
+* Fully supported on Windows
 
-
+## Screenshots
+![alt text](screenshots/image2.png)
+![alt text](screenshots/image3.png)
+![alt text](screenshots/image4.png)
 ## Install on Windows (WSL required)
 * Use the install script, it will install everything, WSL,Required packages,Swiftly, Swift, Vapor
 ![alt text](screenshots/image.png)
@@ -13,6 +17,19 @@ powershell -ExecutionPolicy ByPass -File .\install.ps1
 ```
 
 ## To run the APP
+Proxy server included, it will start both Vapor + React + Vite
+
+* First install React + Vite using the following command:
 ```powershell
-swift run App
+npm install
+```
+* Then run the following command: (it will start both Vapor + React)
+```powershell
+npm run dev
+```
+
+## Endpoints
+```powershell
+http://localhost:8888/ -> React + Vite
+http://localhost:8888/api -> Vapor
 ```
