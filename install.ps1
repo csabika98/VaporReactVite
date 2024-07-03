@@ -3,19 +3,19 @@ function Test-IsAdministrator {
     $currentUser.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-# Check if the script is running as administrator
+
 if (-not (Test-IsAdministrator)) {
     Write-Host "This script requires administrator privileges for some operations. Please run the script as an administrator."
     exit
 }
 
-# Administrative operations
+
 Write-Host "Running administrative operations..."
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart
 Start-Sleep -Seconds 5
 
-# Scoop installation (non-admin)
+
 if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
     Write-Host "Scoop is not installed. Installing Scoop..."
     Invoke-RestMethod get.scoop.sh | Invoke-Expression
@@ -23,7 +23,7 @@ if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
     Write-Host "Scoop is already installed."
 }
 
-# Install necessary Scoop packages
+
 scoop bucket add main
 Write-Host "Downloading and installing Visual Studio components..."
 Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vs_community.exe -OutFile vs_community.exe
@@ -34,7 +34,7 @@ scoop install versions/python39
 scoop install main/swift
 scoop install versions/nodejs20
 
-# Check if WSL is installed
+
 $wslInstalled = (Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux).State -eq 'Enabled'
 
 function IsWSLDistributionInstalled {
@@ -42,17 +42,17 @@ function IsWSLDistributionInstalled {
         [string]$distributionName
     )
 
-    # Get the list of all WSL distributions
+    
     $wslListAll = wsl --list --all
 
-    # Check if the distribution is installed
+    
     $isInstalled = $wslListAll -contains $distributionName
 
     return $isInstalled
 }
 
-# Check if WSL is installed
-$wslInstalled = (wsl --list --all) -ne $null
+
+$wslInstalled = $null -ne (wsl --list --all)
 
 if (-not $wslInstalled) {
     Write-Host "Installing WSL..."
@@ -61,7 +61,7 @@ if (-not $wslInstalled) {
     exit
 }
 
-# Check if Ubuntu is installed
+
 $distributionName = "Ubuntu (Default)"
 $ubuntuInstalled = IsWSLDistributionInstalled -distributionName $distributionName
 
@@ -74,29 +74,29 @@ if (-not $ubuntuInstalled) {
     Write-Host "Ubuntu is already installed."
 }
 
-# Setup WSL environment
+
 Write-Host "Setting up WSL environment..."
 
-# Update and install dependencies
+
 wsl -d Ubuntu -e bash -c "sudo apt update && sudo apt install -y clang libicu-dev libssl-dev libcurl4-openssl-dev"
 
-# Install Swiftly
+
 wsl -d Ubuntu -e bash -c "curl -L https://swiftlang.github.io/swiftly/swiftly-install.sh | bash"
 
-# Source the Swiftly environment script and install the latest Swift
+
 wsl -d Ubuntu -e bash -c "source ~/.local/share/swiftly/env.sh"
 wsl -d Ubuntu -e bash -c "source ~/.local/share/swiftly/env.sh && swiftly install latest"
 wsl -d Ubuntu -e bash -c "source ~/.local/share/swiftly/env.sh && swiftly use latest"
-# Verify the Swift installation
+
 wsl -d Ubuntu -e bash -c "source ~/.local/share/swiftly/env.sh && swift --version"
 
-# Install Vapor Toolbox
+
 wsl -d Ubuntu -e bash -c "cd /tmp/ && git clone https://github.com/vapor/toolbox.git && cd toolbox && source ~/.local/share/swiftly/env.sh && swift build -c release"
 
-# Move the built executable to a directory in your PATH
+
 wsl -d Ubuntu -e bash -c "sudo mv /tmp/toolbox/.build/release/vapor /usr/local/bin/"
 
-# Verify Vapor installation
+
 wsl -d Ubuntu -e bash -c "vapor --help"
 
 Write-Host "WSL environment and Vapor Toolbox setup completed."
