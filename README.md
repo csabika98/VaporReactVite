@@ -11,11 +11,11 @@
 * Use the install script, it will install everything, WSL,Required packages,Swiftly, Swift, Vapor
 ![alt text](screenshots/image.png)
 
-(Adminstrator previliges required)
-```powershell
-powershell -ExecutionPolicy ByPass -File .\install_part1.ps1
+
+```powershell (No need Admin privileges)
+powershell -ExecutionPolicy ByPass -File .\install_part1.ps1 
 ```
-Part2: Will help to install WSL,Swiftly, Swift + Vapor (it requires Admin previliges)
+Part2: Will help to install WSL,Swiftly, Swift + Vapor (it requires Admin privileges)
 ```powershell
 powershell -ExecutionPolicy ByPass -File  .\install_part2.ps1
 ```
