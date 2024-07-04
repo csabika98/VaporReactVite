@@ -13,9 +13,12 @@
 
 (Adminstrator previliges required)
 ```powershell
-powershell -ExecutionPolicy ByPass -File .\install.ps1
+powershell -ExecutionPolicy ByPass -File .\install_part1.ps1
 ```
-
+Part2: Will help to install WSL,Swiftly, Swift + Vapor (it requires Admin previliges)
+```powershell
+powershell -ExecutionPolicy ByPass -File  .\install_part2.ps1
+```
 ## To run the APP
 Proxy server included, it will start both Vapor + React + Vite
 
