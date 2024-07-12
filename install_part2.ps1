@@ -41,47 +41,14 @@ if (-not $wslInstalled) {
     exit
 }
 
-
 $distributionName = "Ubuntu (Default)"
 $ubuntuInstalled = IsWSLDistributionInstalled -distributionName $distributionName
 
 if (-not $ubuntuInstalled) {
     Write-Host "Installing Ubuntu..."
     wsl --install -d Ubuntu
-    Write-Host "Ubuntu installed. Please restart your computer and re-run this script."
+    Write-Host "Ubuntu installed. Please restart your computer and run the install_part3 script..."
     exit
 } else {
     Write-Host "Ubuntu is already installed."
 }
-
-
-Write-Host "Setting up WSL environment..."
-
-
-wsl -d Ubuntu -e bash -c "sudo apt update && sudo apt install -y clang libicu-dev libssl-dev libcurl4-openssl-dev"
-
-
-wsl -d Ubuntu -e bash -c "curl -L https://swiftlang.github.io/swiftly/swiftly-install.sh | bash"
-
-
-wsl -d Ubuntu -e bash -c "source ~/.local/share/swiftly/env.sh"
-wsl -d Ubuntu -e bash -c "source ~/.local/share/swiftly/env.sh && swiftly install latest"
-wsl -d Ubuntu -e bash -c "source ~/.local/share/swiftly/env.sh && swiftly use latest"
-
-wsl -d Ubuntu -e bash -c "source ~/.local/share/swiftly/env.sh && swift --version"
-
-
-wsl -d Ubuntu -e bash -c "cd /tmp/ && git clone https://github.com/vapor/toolbox.git && cd toolbox && source ~/.local/share/swiftly/env.sh && swift build -c release"
-
-
-wsl -d Ubuntu -e bash -c "sudo mv /tmp/toolbox/.build/release/vapor /usr/local/bin/"
-
-
-wsl -d Ubuntu -e bash -c "vapor --help"
-
-Write-Host "WSL environment and Vapor Toolbox setup completed."
-
-
-
-
-
