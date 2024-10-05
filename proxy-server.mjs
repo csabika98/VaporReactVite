@@ -4,6 +4,7 @@ import { spawn } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import os from 'os';
 
 const app = express();
 
@@ -33,9 +34,21 @@ console.log(`Building Vapor project at path: ${VaporProjectPath}`);
 let VaporProcess;
 
 const runVaporApp = () => {
-    VaporProcess = spawn('wsl', ['./run_vapor.sh'], { cwd: VaporProjectPath });
+    let command, args;
+    console.log(os.platform())
+    if (os.platform() === 'linux') {
+        // If you're on Ubuntu or other Linux systems, use bash
+        command = 'bash';
+        args = ['./run_vapor.sh'];
+    } else if (os.platform() === 'win32') {
+        // If you're on Windows and using WSL
+        command = 'wsl';
+        args = ['./run_vapor.sh'];
+    }
+
+    VaporProcess = spawn(command, args, { cwd: VaporProjectPath });
     VaporProcess.stdout.on('data', (data) => console.log(`Vapor: ${data}`));
-    VaporProcess.stderr.on('data', (data) => console.error(`Vapor : ${data}`));
+    VaporProcess.stderr.on('data', (data) => console.error(`Vapor: ${data}`));
     VaporProcess.on('close', (code) => {
         console.log(`Vapor process exited with code ${code}`);
     });
